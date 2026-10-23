@@ -484,6 +484,9 @@
         /* 6. 자료실 섹션 */
         .resources-section { background: var(--bg-light); }
         .resources-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        /* [자료 업로드 전 임시 숨김] 파일이 올라오면 아래 두 줄을 삭제하면 원래대로 3개 카드가 보입니다. */
+        .resource-card[data-pending="true"] { display: none; }
+        .resources-grid { grid-template-columns: minmax(0, 420px); justify-content: center; }
         .resource-card {
             background: #ffffff; 
             border: 1px solid var(--border-color);
@@ -1246,8 +1249,8 @@
         </div>
 
         <div class="resources-grid">
-            <!-- 1. 성경 주제별 사전 (전체본 175 챕터) -->
-            <div class="resource-card">
+            <!-- 1. 성경 주제별 사전 (전체본 175 챕터) - 파일 업로드 전 임시 숨김(data-pending) -->
+            <div class="resource-card" data-pending="true">
                 <div>
                     <span class="resource-badge">성경공부 과정</span>
                     <h3>성경 주제별 사전 <span class="upload-pending">(업로드 준비중)</span></h3>
@@ -1262,7 +1265,7 @@
             <div class="resource-card">
                 <div>
                     <span class="resource-badge">성경공부 요약</span>
-                    <h3>성경 주제별 사전 (요약) <span class="upload-pending">(일부 업로드 준비중)</span></h3>
+                    <h3>성경 주제별 사전 (요약)</h3>
                     <p>성경 주제별 사전의 방대한 핵심 내용을 챕터별로 빠르게 학습할 수 있도록 압축 정리한 요약 카드입니다.</p>
                 </div>
                 <div class="resource-download-btn" onclick="openDictionaryModal('summary')">
@@ -1270,8 +1273,8 @@
                 </div>
             </div>
 
-            <!-- 3. 기타 자료실 -->
-            <div class="resource-card">
+            <!-- 3. 기타 자료실 - 파일 업로드 전 임시 숨김(data-pending) -->
+            <div class="resource-card" data-pending="true">
                 <div>
                     <span class="resource-badge">나눔 및 서식</span>
                     <h3>기타자료실 <span class="upload-pending">(업로드 준비중)</span></h3>
@@ -1435,6 +1438,15 @@
 
         };
 
+        // [자료 업로드 전 임시 설정] true: 요약본은 파일이 등록된 챕터만 표시 / false: 175개 전체 표시(원래 방식)
+        const SHOW_ONLY_UPLOADED = true;
+        function getTopicList() {
+            if (SHOW_ONLY_UPLOADED && currentDictType === 'summary') {
+                return dictionaryTopics.filter((t, i) => !!summaryPdfUrls[String(i + 1).padStart(3, '0')]);
+            }
+            return dictionaryTopics;
+        }
+
         function renderDictItems(list) {
             const grid = document.getElementById('dictGridList');
             if (list.length === 0) {
@@ -1504,7 +1516,7 @@
 
         function filterDictList() {
             const query = document.getElementById('dictSearchInput').value.trim().toLowerCase();
-            const filtered = dictionaryTopics.filter(t => t.toLowerCase().includes(query));
+            const filtered = getTopicList().filter(t => t.toLowerCase().includes(query));
             renderDictItems(filtered);
         }
 
@@ -1514,11 +1526,11 @@
             document.getElementById('dictSearchInput').value = '';
 
             if (range === '전체') {
-                renderDictItems(dictionaryTopics);
+                renderDictItems(getTopicList());
                 return;
             }
 
-            const filtered = dictionaryTopics.filter(topic => {
+            const filtered = getTopicList().filter(topic => {
                 const firstChar = topic.charAt(0);
                 if (range === 'ㄱ') return firstChar >= '가' && firstChar <= '깋';
                 if (range === 'ㄴ-ㄷ') return (firstChar >= '나' && firstChar <= '닣') || (firstChar >= '다' && firstChar <= '딯') || (firstChar >= '따' && firstChar <= '띻');
@@ -1537,7 +1549,7 @@
             const modalTitleEl = document.getElementById('dictModalTitle');
             
             if (currentDictType === 'summary') {
-                modalTitleEl.innerHTML = '<i class="fa-solid fa-file-lines" style="color: var(--primary);"></i> 성경 주제별 사전 (요약본 175 챕터)';
+                modalTitleEl.innerHTML = '<i class="fa-solid fa-file-lines" style="color: var(--primary);"></i> 성경 주제별 사전 (요약본 ' + getTopicList().length + ' 챕터)';
             } else {
                 modalTitleEl.innerHTML = '<i class="fa-solid fa-book-bible" style="color: var(--primary);"></i> 성경 주제별 사전 (전체본 175 챕터)';
             }
@@ -1548,7 +1560,9 @@
                 else b.classList.remove('active');
             });
 
-            renderDictItems(dictionaryTopics);
+            // 표시 중인 챕터가 적으면 초성 필터 버튼은 숨김 (빈 결과 방지)
+            document.querySelector('.dict-filter-tags').style.display = getTopicList().length < dictionaryTopics.length ? 'none' : '';
+            renderDictItems(getTopicList());
             document.getElementById('dictModal').classList.add('active');
             document.body.style.overflow = 'hidden'; // 배경 스크롤 방지
         }
