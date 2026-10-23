@@ -274,7 +274,7 @@
         }
         .sermon-badge { background: #ff0000; color: #fff; font-size: 0.75rem; font-weight: bold; padding: 4px 12px; border-radius: 30px; display: inline-flex; align-items: center; gap: 6px; width: fit-content; }
         
-        .sermon-mock-video { 
+        .sermon-video { 
             background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1507692049790-de58290a4334?auto=format&fit=crop&w=800&q=80') no-repeat center center/cover;
             height: 130px;
             border-radius: 12px;
@@ -289,7 +289,7 @@
             text-decoration: none;
             margin: 10px 0;
         }
-        .sermon-mock-video:hover { transform: scale(1.02); }
+        .sermon-video:hover { transform: scale(1.02); }
         .play-icon { font-size: 2.2rem; color: #fff; opacity: 0.9; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
         
         .sermon-channel-link {
@@ -510,6 +510,7 @@
             margin-bottom: 15px;
             width: fit-content;
         }
+        .upload-pending { font-size: 0.8em; font-weight: 600; color: #b45309; }
         .resource-card h3 {
             font-size: 1.15rem;
             font-weight: 800;
@@ -627,6 +628,8 @@
             font-weight: 500; 
         }
         .footer-bottom-info span { margin-right: 20px; }
+        .footer-bottom-info p { margin: 0 0 6px; line-height: 1.6; }
+        .footer-org { color: #e2e8f0; font-size: 0.95rem; }
 
         /* 성경 주제별 사전 모달 */
         .dictionary-modal {
@@ -1123,7 +1126,7 @@
                     <span class="sermon-badge"><i class="fa-brands fa-youtube"></i> 유튜브 채널</span>
                 </div>
                 
-                <a href="https://www.youtube.com/@Lifeship9191" target="_blank" rel="noopener noreferrer" class="sermon-mock-video">
+                <a href="https://www.youtube.com/@Lifeship9191" target="_blank" rel="noopener noreferrer" class="sermon-video" aria-label="생명선교회 유튜브 채널로 이동">
                     <i class="fa-solid fa-circle-play play-icon"></i>
                 </a>
                 
@@ -1247,7 +1250,7 @@
             <div class="resource-card">
                 <div>
                     <span class="resource-badge">성경공부 과정</span>
-                    <h3>성경 주제별 사전</h3>
+                    <h3>성경 주제별 사전 <span class="upload-pending">(업로드 준비중)</span></h3>
                     <p>가난에서 힘까지 총 175개 성경 핵심 주제를 엄선하여 깊이 있게 해설한 챕터별 강해 교재입니다.</p>
                 </div>
                 <div class="resource-download-btn" onclick="openDictionaryModal('full')">
@@ -1259,7 +1262,7 @@
             <div class="resource-card">
                 <div>
                     <span class="resource-badge">성경공부 요약</span>
-                    <h3>성경 주제별 사전 (요약)</h3>
+                    <h3>성경 주제별 사전 (요약) <span class="upload-pending">(일부 업로드 준비중)</span></h3>
                     <p>성경 주제별 사전의 방대한 핵심 내용을 챕터별로 빠르게 학습할 수 있도록 압축 정리한 요약 카드입니다.</p>
                 </div>
                 <div class="resource-download-btn" onclick="openDictionaryModal('summary')">
@@ -1271,7 +1274,7 @@
             <div class="resource-card">
                 <div>
                     <span class="resource-badge">나눔 및 서식</span>
-                    <h3>기타자료실</h3>
+                    <h3>기타자료실 <span class="upload-pending">(업로드 준비중)</span></h3>
                     <p>신앙 양육 자료, 소그룹 나눔 교재, 교회 양식 및 서식 등 교회의 다양한 자료를 내려받으실 수 있습니다.</p>
                 </div>
                 <div class="resource-download-btn" onclick="openEtcModal()">
@@ -1334,10 +1337,11 @@
     <footer>
         <div class="footer-bottom">
             <div class="footer-bottom-info">
-                <span><strong>전화:</strong> 02-409-8012</span>
-                <span><strong>주소:</strong> 서울 송파구 가락동 오금로 46길 16, 성연빌딩 3층</span>
+                <p class="footer-org"><strong>생명선교회 (Lifeship Church)</strong> | 고유번호: 214-82-66820</p>
+                <p><span><strong>대표자(담임목사):</strong> 박지순</span><span><strong>주소:</strong> 서울특별시 송파구 오금로46길 16 (가락동, 3층)</span></p>
+                <p><span><strong>이메일:</strong> <a href="mailto:lifeship@lifeship.kr" style="color: inherit;">lifeship@lifeship.kr</a></span><span><strong>전화:</strong> 02-409-8012</span></p>
             </div>
-            <p>&copy; 2026 생명선교회. All Rights Reserved.</p>
+            <p>&copy; 2026 생명선교회 (Lifeship Church). All Rights Reserved.</p>
         </div>
     </footer>
 
@@ -1382,35 +1386,7 @@
             </div>
 
             <div class="etc-list-container">
-                <div class="etc-item-card">
-                    <div class="etc-item-info">
-                        <h4>자료 1</h4>
-                        <p>자료 설명</p>
-                    </div>
-                    <div class="etc-dl-btn" onclick="downloadEtcFile('자료 1')">
-                        <i class="fa-solid fa-file-pdf"></i> 다운로드
-                    </div>
-                </div>
-
-                <div class="etc-item-card">
-                    <div class="etc-item-info">
-                        <h4>자료 2</h4>
-                        <p>자료 설명</p>
-                    </div>
-                    <div class="etc-dl-btn" onclick="downloadEtcFile('자료 2')">
-                        <i class="fa-solid fa-file-pdf"></i> 다운로드
-                    </div>
-                </div>
-
-                <div class="etc-item-card">
-                    <div class="etc-item-info">
-                        <h4>자료 3</h4>
-                        <p>자료 설명</p>
-                    </div>
-                    <div class="etc-dl-btn" onclick="downloadEtcFile('자료 3')">
-                        <i class="fa-solid fa-file-lines"></i> 다운로드
-                    </div>
-                </div>
+                <p style="text-align: center; padding: 40px 10px; color: var(--text-muted);">신앙 양육 자료, 소그룹 나눔 교재, 교회 양식 및 서식 파일은 현재 <strong>(업로드 준비중)</strong>입니다.</p>
             </div>
         </div>
     </div>
@@ -1421,11 +1397,9 @@
             <span class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></span>
             <div class="modal-header">
                 <i class="fa-solid fa-bell"></i>
-                <h4 id="modalTitle">성전 안내 알림</h4>
+                <h4 id="modalTitle">안내</h4>
             </div>
-            <div class="modal-body" id="modalBody">
-                안내 문구 영역입니다.
-            </div>
+            <div class="modal-body" id="modalBody"></div>
             <button class="modal-btn" onclick="closeModal()">확인 및 닫기</button>
         </div>
     </div>
@@ -1471,7 +1445,8 @@
                 // 전체 목록(dictionaryTopics) 기준의 고유 인덱스를 챕터 번호로 사용
                 const originalIndex = dictionaryTopics.indexOf(item);
                 const chapterNo = String(originalIndex + 1).padStart(3, '0');
-                const labelText = currentDictType === 'summary' ? `${item} (요약본)` : item;
+                const hasFile = currentDictType === 'summary' && !!summaryPdfUrls[chapterNo];
+                const labelText = (currentDictType === 'summary' ? `${item} (요약본)` : item) + (hasFile ? '' : ' (업로드 준비중)');
                 const iconClass = currentDictType === 'summary' ? 'fa-file-lines' : 'fa-file-arrow-down';
                 return `
                     <div class="dict-item-card" data-title="${item}">
@@ -1499,7 +1474,7 @@
                     // 미등록 챕터 클릭 시 안내 모달
                     openModal(
                         `${title} [Chapter ${no}] 요약본 안내`,
-                        `<strong>[Chapter ${no}. ${title}]</strong> 요약본 파일은 현재 업로드 준비 중입니다.<br>빠른 시일 내에 제공해 드리겠습니다.`
+                        `<strong>[Chapter ${no}. ${title}]</strong> 요약본 파일은 현재 (업로드 준비중)입니다.<br>빠른 시일 내에 제공해 드리겠습니다.`
                     );
                 }
             } else {
@@ -1507,7 +1482,7 @@
                 const typeLabel = '전체 강해본';
                 openModal(
                     `${title} [Chapter ${no}] ${typeLabel} 안내`,
-                    `<strong>[Chapter ${no}. ${title}]</strong> 전체본 강해 PDF 파일은 현재 준비 중입니다.`
+                    `<strong>[Chapter ${no}. ${title}]</strong> 전체본 강해 PDF 파일은 현재 (업로드 준비중)입니다.`
                 );
             }
         }
